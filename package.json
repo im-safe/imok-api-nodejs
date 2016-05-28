@@ -1,0 +1,19 @@
+{
+  "name": "imok",
+  "version": "1.0.0",
+  "description": "I'm OK",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/saleh199/imok-api.git"
+  },
+  "author": "Saleh Saeed",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/saleh199/imok-api#readme",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
