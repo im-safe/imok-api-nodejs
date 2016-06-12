@@ -1,2 +1,8 @@
-node_modules
+# Editors
 .idea/
+*.iml
+
+# Dependency directory
+node_modules/
+bower_components/
+
