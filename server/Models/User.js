@@ -17,7 +17,12 @@ var User = new Schema({
         type: [Number], index: Schema.indexTypes['2d']
     },
     friends: { type: [Friend] },
-    devices: { type: String },
+    devices: {
+        deviceId: { type: String, required: true },
+        platform_type: { type: String, required: true },
+        token: { type: String, required: true },
+        created_date: { type: Date, default: Date.now }
+    },
     is_active: { type: Boolean },
     confirm_code: { type: String },
     is_confirmed: { type: Boolean },
