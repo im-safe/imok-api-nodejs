@@ -10,13 +10,15 @@ var User = new Schema({
     email: { type: String },
     country_code: { type: String },
     phone_number: { type: String },
-    last_location: { type: String },
+    last_location: {
+        type: [Number], index: '2d'
+    },
     friends: { type: String },
     devices: { type: String },
     is_active: { type: Boolean },
     confirm_code: { type: String },
     is_confirmed: { type: Boolean },
-    created_date: { type: Date }
+    created_date: { type: Date, default: Date.now }
 });
 
 
