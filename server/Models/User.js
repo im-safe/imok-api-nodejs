@@ -4,6 +4,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var Friend = require('./Friend');
+
+// User Schema
 var User = new Schema({
     first_name: { type: String },
     last_name: { type: String },
@@ -11,9 +14,9 @@ var User = new Schema({
     country_code: { type: String },
     phone_number: { type: String },
     last_location: {
-        type: [Number], index: '2d'
+        type: [Number], index: Schema.indexTypes['2d']
     },
-    friends: { type: String },
+    friends: { type: [Friend] },
     devices: { type: String },
     is_active: { type: Boolean },
     confirm_code: { type: String },
