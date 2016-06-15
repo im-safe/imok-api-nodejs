@@ -13,8 +13,6 @@ var mongoose = require('mongoose');
 // Load environment variables from .env file
 dotenv.load();
 
-// Controllers
-
 var app = express();
 
 mongoose.connect(process.env.MONGO_URI);
@@ -42,5 +40,8 @@ if(app.get('env') == 'production') {
 app.listen(app.get('port'), function(){
     console.log('Express server listing on port ' + app.get('port'));
 });
+
+// Routes
+require('./routes')(app);
 
 module.exports = app;
