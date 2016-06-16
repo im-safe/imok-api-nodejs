@@ -4,8 +4,10 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var Friend = require('./Friend');
-var Device = require('./Device');
+var shortid = require('shortid');
+
+var Friend = require('./Friend').schema;
+var Device = require('./Device').schema;
 
 // User Schema
 var User = new Schema({
@@ -18,12 +20,15 @@ var User = new Schema({
         type: [Number], index: Schema.indexTypes['2d']
     },
     friends: { type: [Friend] },
-    devices: { type: Device },
+    device: { type: Device },
     is_active: { type: Boolean },
-    confirm_code: { type: String },
-    is_confirmed: { type: Boolean },
+    confirm_code: { type: String, default: shortid.generate },
+    is_confirmed: { type: Boolean, default: false },
     created_date: { type: Date, default: Date.now }
 });
 
 
-module.exports = mongoose.model('User', User);
+module.exports = {
+    schema: User,
+    model: mongoose.model('User', User)
+};

@@ -10,4 +10,7 @@ var Friend = new Schema({
     created_date: { type: Date, default: Date.now }
 });
 
-module.exports  = Friend;
+module.exports  = {
+    schema: Friend,
+    model: mongoose.model('Friend', Friend)
+};

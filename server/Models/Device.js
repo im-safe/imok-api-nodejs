@@ -11,4 +11,7 @@ var Device = new Schema({
     created_date: { type: Date, default: Date.now }
 });
 
-module.exports = Device;
+module.exports = {
+    schema: Device,
+    model: mongoose.model('Device', Device)
+};
