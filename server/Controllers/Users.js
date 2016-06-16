@@ -56,3 +56,63 @@ exports.register = function(req, res) {
         });
     });
 };
+
+exports.confirm = function(req, res, next){
+    req.checkBody({
+        userId: { notEmpty: true },
+        confirm_code: { notEmpty: true }
+    });
+
+    var errors = req.validationErrors();
+
+    if(errors){
+        res.status(400).json({
+            error: true,
+            results: null,
+            errors: errors
+        });
+
+        return null;
+    }
+
+    User.findById(req.body.userId, function(err, user){
+        if(err){
+            return res.status(400).json({
+                error: true,
+                results: null,
+                errors: err
+            });
+        }
+
+        if(user.is_confirmed) {
+            return res.json({
+                error: false,
+                results: {
+                    status: 'already confirmed'
+                },
+                errors: []
+            });
+        }
+
+        if(user.confirm_code == req.body.confirm_code) {
+            user.is_confirmed = true;
+            user.save(function(){
+                return res.json({
+                    error: false,
+                    results: {
+                        status: 'confirmed'
+                    },
+                    errors: []
+                });
+            });
+        }else{
+            return res.status(400).json({
+                error: true,
+                results: {},
+                errors: [
+                    { msg: 'Not Confirmed' }
+                ]
+            });
+        }
+    });
+};
