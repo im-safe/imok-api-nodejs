@@ -6,3 +6,5 @@
 node_modules/
 bower_components/
 
+# NPM
+npm-debug.log
