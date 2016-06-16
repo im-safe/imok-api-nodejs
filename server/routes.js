@@ -6,5 +6,5 @@ var UsersCtrl = require('./Controllers/Users');
 
 module.exports = function(app) {
 
-    app.post('/register', UsersCtrl.create);
+    app.post('/register', UsersCtrl.register);
 };

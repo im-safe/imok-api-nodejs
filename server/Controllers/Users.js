@@ -2,9 +2,8 @@
  * Created by saleh on 6/12/16.
  */
 var User = require('../Models/User').model;
-var DevicesService = require('../Services/DevicesService');
 
-exports.create = function(req, res) {
+exports.register = function(req, res) {
     // Validate Data
     req.checkBody({
         country_code: { notEmpty: true },
