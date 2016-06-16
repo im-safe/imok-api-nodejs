@@ -4,8 +4,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var shortid = require('shortid');
-
 var Friend = require('./Friend').schema;
 var Device = require('./Device').schema;
 
@@ -22,7 +20,7 @@ var User = new Schema({
     friends: { type: [Friend] },
     device: { type: Device },
     is_active: { type: Boolean },
-    confirm_code: { type: String, default: shortid.generate },
+    confirm_code: { type: String, default: Math.floor((Math.random()*999999)+111111) },
     is_confirmed: { type: Boolean, default: false },
     created_date: { type: Date, default: Date.now }
 });
