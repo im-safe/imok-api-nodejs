@@ -11,4 +11,4 @@ var Device = new Schema({
     created_date: { type: Date, default: Date.now }
 });
 
-modules.exports = Device;
+module.exports = Device;
