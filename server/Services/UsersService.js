@@ -1,6 +1,5 @@
-/**
- * Created by saleh on 6/16/16.
- */
+'use strict';
+
 var User = require('../Models/User').model;
 var Q = require('q');
 
@@ -22,7 +21,7 @@ function checkExists(country_code, phone_number)
         if(err){
             deferred.reject(err);
         }
-        if(data){
+        if(data && data.length > 0){
             deferred.resolve(true);
         }else{
             deferred.resolve(false);
@@ -37,6 +36,7 @@ function checkExists(country_code, phone_number)
  *
  * @param userData
  * @param callback
+ * @return void
  */
 function createUser(userData, callback)
 {
@@ -62,7 +62,18 @@ function createUser(userData, callback)
     });
 }
 
+/**
+ * Generate confirmation code
+ *
+ * @returns {number}
+ */
+function generateConfirmationCode()
+{
+    return Math.floor((Math.random()*999999)+111111);
+}
+
 module.exports = {
     checkExists: checkExists,
-    createUser: createUser
+    createUser: createUser,
+    generateConfirmationCode: generateConfirmationCode
 };
