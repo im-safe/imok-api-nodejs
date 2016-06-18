@@ -81,6 +81,23 @@ function updateUser(userId, userData, callback)
 }
 
 /**
+ * Get user by ID
+ *
+ * @param userId
+ * @param callback
+ */
+function getUserById(userId, callback)
+{
+    User.findById(userId, function(err, user){
+        if(err) {
+            callback(true, err);
+        }
+
+        callback(false, user);
+    });
+}
+
+/**
  * Generate confirmation code
  *
  * @returns {number}
@@ -94,5 +111,6 @@ module.exports = {
     checkExists: checkExists,
     createUser: createUser,
     updateUser: updateUser,
+    getUserById: getUserById,
     generateConfirmationCode: generateConfirmationCode
 };
