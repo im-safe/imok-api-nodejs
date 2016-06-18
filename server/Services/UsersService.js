@@ -104,7 +104,10 @@ function getUserById(userId, callback)
  */
 function generateConfirmationCode()
 {
-    return Math.floor((Math.random()*999999)+111111);
+    var min = Math.pow(10, 5);
+    var max = Math.pow(10, 6) - 1;
+
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 module.exports = {

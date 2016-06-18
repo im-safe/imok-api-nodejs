@@ -20,7 +20,7 @@ var User = new Schema({
     friends: { type: [Friend] },
     device: { type: Device },
     is_active: { type: Boolean },
-    confirm_code: { type: String, default: Math.floor((Math.random()*999999)+111111) },
+    confirm_code: { type: String, default: Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000 },
     is_confirmed: { type: Boolean, default: false },
     created_date: { type: Date, default: Date.now }
 });
