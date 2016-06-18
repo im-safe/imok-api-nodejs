@@ -3,7 +3,6 @@
  */
 
 var UsersCtrl = require('./Controllers/Users');
-var DevicesCtrl = require('./Controllers/Devices');
 
 module.exports = function(app) {
 

@@ -1,6 +1,5 @@
-/**
- * Created by saleh on 6/12/16.
- */
+'use strict';
+
 var User = require('../Models/User').model;
 var UsersService = require('../Services/UsersService');
 
@@ -17,27 +16,43 @@ exports.register = function(req, res) {
         return res.jsonExpressError(errors);
     }
 
-    var userData = {
-        country_code: req.body.country_code,
-        phone_number: req.body.phone_number,
-        is_active: true
-    };
-
     // Check user if exists by country_code and phone_number
-    var promise = UsersService.checkExists(userData.country_code, userData.phone_number);
+    var promise = UsersService.checkExists(req.body.country_code, req.body.phone_number);
 
     promise
         .then(function(exists){
-            if(exists === true){ // Login
-                // TODO Implement login process
+            if(exists !== false){ // Login
+                if(!exists.is_active) {
+                    return res.jsonError('User Not Activated, Please contact system administrator');
+                }
 
-                return res.jsonError('User Already Exists');
+                var data = {
+                    confirm_code: UsersService.generateConfirmationCode(),
+                    is_confirmed: false
+                };
+
+                UsersService.updateUser(exists._id, data, function(error, result){
+                    if(error){
+                        return res.jsonMongooseError(result);
+                    }
+
+                    // TODO Send confirmation code via SMS
+                    return res.jsonResponse();
+                });
             }else{ // New user
+
+                var userData = {
+                    country_code: req.body.country_code,
+                    phone_number: req.body.phone_number,
+                    is_active: true
+                };
+
                 UsersService.createUser(userData, function(error, result){
                     if(error){
                         return res.jsonMongooseError(result);
                     }
 
+                    // TODO Send confirmation code via SMS
                     return res.jsonResponse(result);
                 });
             }

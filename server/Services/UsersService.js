@@ -8,7 +8,7 @@ var Q = require('q');
  *
  * @param country_code
  * @param phone_number
- * @returns Promise
+  * @returns Promise
  */
 function checkExists(country_code, phone_number)
 {
@@ -22,7 +22,7 @@ function checkExists(country_code, phone_number)
             deferred.reject(err);
         }
         if(data && data.length > 0){
-            deferred.resolve(true);
+            deferred.resolve(data[0]);
         }else{
             deferred.resolve(false);
         }
@@ -42,7 +42,7 @@ function createUser(userData, callback)
 {
     var user = new User(userData);
 
-    user.save(function(err, user){
+    user.save(function(err){
         if(err){
             callback(true, err);
         }
@@ -63,6 +63,24 @@ function createUser(userData, callback)
 }
 
 /**
+ * Update user info
+ *
+ * @param userId
+ * @param userData
+ * @param callback
+ */
+function updateUser(userId, userData, callback)
+{
+    User.findByIdAndUpdate(userId, { $set: userData }, function(err, user){
+        if(err) {
+            callback(true, err);
+        }
+
+        callback(false, user);
+    });
+}
+
+/**
  * Generate confirmation code
  *
  * @returns {number}
@@ -75,5 +93,6 @@ function generateConfirmationCode()
 module.exports = {
     checkExists: checkExists,
     createUser: createUser,
+    updateUser: updateUser,
     generateConfirmationCode: generateConfirmationCode
 };
