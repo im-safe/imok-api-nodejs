@@ -71,53 +71,28 @@ exports.confirm = function(req, res, next){
     var errors = req.validationErrors();
 
     if(errors){
-        res.status(400).json({
-            error: true,
-            results: null,
-            errors: errors
-        });
-
-        return null;
+        return res.jsonExpressError(errors);
     }
 
-    User.findById(req.body.userId, function(err, user){
-        if(err){
-            return res.status(400).json({
-                error: true,
-                results: null,
-                errors: err
-            });
+    UsersService.getUserById(req.body.userId, function(error, result){
+        if(error) {
+            return res.jsonMongooseError(result);
         }
 
-        if(user.is_confirmed) {
-            return res.json({
-                error: false,
-                results: {
-                    status: 'already confirmed'
-                },
-                errors: []
-            });
+        if(result.is_confirmed){
+            return res.jsonResponse('User already confirmed');
         }
 
-        if(user.confirm_code == req.body.confirm_code) {
-            user.is_confirmed = true;
-            user.save(function(){
-                return res.json({
-                    error: false,
-                    results: {
-                        status: 'confirmed'
-                    },
-                    errors: []
-                });
+        if(result.confirm_code == req.body.confirm_code) {
+            UsersService.updateUser(req.body.userId, {is_confirmed: true}, function(error, result){
+                if(error) {
+                    return res.jsonMongooseError(result);
+                }
+
+                return res.jsonResponse('confirmed');
             });
         }else{
-            return res.status(400).json({
-                error: true,
-                results: {},
-                errors: [
-                    { msg: 'Not Confirmed' }
-                ]
-            });
+            return res.jsonError('not valid code', 200);
         }
     });
 };
