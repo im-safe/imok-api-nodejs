@@ -30,6 +30,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressValidator());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(jsonResponse.express);
+app.use(function(req, res, next){
+    res.setHeader(
+        'Access-Control-Allow-Headers',
+        'X-Requested-With,content-type, Authorization'
+    );
+    next();
+});
 
 // Production error handler
 if(app.get('env') == 'production') {
