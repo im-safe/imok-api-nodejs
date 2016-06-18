@@ -9,6 +9,7 @@ var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 var dotenv = require('dotenv');
 var mongoose = require('mongoose');
+var jsonResponse = require('./Middlewares/JsonResponse');
 
 // Load environment variables from .env file
 dotenv.load();
@@ -28,6 +29,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressValidator());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(jsonResponse.express);
 
 // Production error handler
 if(app.get('env') == 'production') {
