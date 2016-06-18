@@ -2,6 +2,7 @@
  * Created by saleh on 6/12/16.
  */
 var User = require('../Models/User').model;
+var UsersService = require('../Services/UsersService');
 
 exports.register = function(req, res) {
     // Validate Data
@@ -13,13 +14,7 @@ exports.register = function(req, res) {
     var errors = req.validationErrors();
 
     if(errors){
-        res.status(400).json({
-            error: true,
-            results: null,
-            errors: errors
-        });
-
-        return null;
+        return res.jsonExpressError(errors);
     }
 
     var userData = {
@@ -28,33 +23,28 @@ exports.register = function(req, res) {
         is_active: true
     };
 
-    var user = new User(userData);
+    // Check user if exists by country_code and phone_number
+    var promise = UsersService.checkExists(userData.country_code, userData.phone_number);
 
-    user.save(function(err, user){
-        if(err){
-            return res.status(400).json({
-                error: true,
-                results: null,
-                errors: err
-            });
-        }
+    promise
+        .then(function(exists){
+            if(exists === true){ // Login
+                // TODO Implement login process
 
-        var result = {
-            id : user._id,
-            friends: user.friends,
-            last_location: user.last_location,
-            country_code: user.country_code,
-            phone_number: user.phone_number,
-            device: user.device,
-            friends: user.friends
-        };
+                return res.jsonError('User Already Exists');
+            }else{ // New user
+                UsersService.createUser(userData, function(error, result){
+                    if(error){
+                        return res.jsonMongooseError(result);
+                    }
 
-        return res.json({
-            error: false,
-            results: result,
-            errors: []
+                    return res.jsonResponse(result);
+                });
+            }
+        })
+        .fail(function(err){
+            return res.jsonExpressError(err);
         });
-    });
 };
 
 exports.confirm = function(req, res, next){
