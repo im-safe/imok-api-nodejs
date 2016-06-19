@@ -43,6 +43,9 @@ app.use(expressValidator({
     customValidators: {
         isObjectId: function(value) {
             return mongoose.Types.ObjectId.isValid(value);
+        },
+        isValidCoordinate: function(value){
+            return /^-?((1?[0-7]?|[0-9]?)[0-9]|180)\.[0-9]{1,6}$/.test(value);
         }
     }
 }));
