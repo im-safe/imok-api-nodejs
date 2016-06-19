@@ -4,6 +4,7 @@
 
 var AuthCtrl = require('./Controllers/Auth');
 var UsersCtrl = require('./Controllers/Backend/Users');
+var EventsCtrl = require('./Controllers/Backend/Events');
 var authorize = require('./Middlewares/Jwt');
 
 module.exports = function(app) {
@@ -13,6 +14,8 @@ module.exports = function(app) {
      * Backend API
      */
     app.get(apiRoutePrefix + 'users', UsersCtrl.list);
+
+    app.post(apiRoutePrefix + 'events', EventsCtrl.create);
 
 
     /**
