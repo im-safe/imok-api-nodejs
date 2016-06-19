@@ -112,6 +112,12 @@ function getUserById(userId, callback)
     });
 }
 
+/**
+ * Get list of users
+ *
+ * @param criteria
+ * @param callback
+ */
 function getList(criteria, callback)
 {
     var per_page = 20;
