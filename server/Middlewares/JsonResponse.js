@@ -46,8 +46,6 @@ var JsonResponse = function(){
     self.response = function(data, status){
         status = status || 200;
 
-        self.setHeader();
-
         var results = {};
         results.error = false;
         results.errors = null;
@@ -77,8 +75,6 @@ var JsonResponse = function(){
 
         status = status || 400;
 
-        self.setHeader();
-
         var results = null;
         var errors = [];
         var error = true;
@@ -90,9 +86,7 @@ var JsonResponse = function(){
     };
 
     self.mongooseError = function (err, status) {
-        status = status || 400;
-
-        self.setHeader();
+        status = status || 500;
 
         var results = null;
         var errors = [];
@@ -111,8 +105,6 @@ var JsonResponse = function(){
 
     self.expressError = function (errs, status){
         status = status || 400;
-
-        self.setHeader();
 
         var results = null;
         var errors = [];

@@ -44,3 +44,14 @@ exports.list = function(req, res, next)
         return res.jsonResponse(events);
     });
 };
+
+exports.info = function(req, res, next)
+{
+    EventsService.getEventById(req.params['id'], function(error, event){
+        if(error){
+            return res.jsonError(event, 404);
+        }
+
+        return res.jsonResponse(event);
+    });
+};
