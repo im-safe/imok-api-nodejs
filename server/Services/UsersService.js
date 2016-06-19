@@ -112,6 +112,29 @@ function getUserById(userId, callback)
     });
 }
 
+function getList(criteria, callback)
+{
+    var per_page = 20;
+    var offset = 0;
+    var page = 1;
+
+    if(criteria.page && criteria.page > 0) {
+        page = parseInt(criteria.page);
+        delete criteria.page;
+    }
+
+    offset = (page - 1) * per_page;
+
+    // TODO Check limit
+    User.find(criteria, {confirm_code: 0}, { skip: offset, limit: per_page }, function(err, users){
+        if(err) {
+            callback(true, "Error while getting list of users");
+        }
+
+        callback(false, users);
+    });
+}
+
 /**
  * Generate confirmation code
  *
@@ -130,5 +153,6 @@ module.exports = {
     createUser: createUser,
     updateUser: updateUser,
     getUserById: getUserById,
+    getList: getList,
     generateConfirmationCode: generateConfirmationCode
 };
