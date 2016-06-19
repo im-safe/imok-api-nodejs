@@ -32,6 +32,25 @@ function getList(criteria, callback)
     });
 }
 
+
+/**
+ * Get event by ID
+ *
+ * @param eventId
+ * @param callback
+ */
+function getEventById(eventId, callback)
+{
+    Event.findById(eventId, function(err, event){
+        if(err){
+            callback(true, 'Error while getting event info');
+        }
+
+        callback(false, event);
+    });
+}
+
 module.exports = {
-    getList: getList
+    getList: getList,
+    getEventById: getEventById
 };
