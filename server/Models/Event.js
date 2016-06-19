@@ -6,10 +6,10 @@ var Schema = mongoose.Schema;
 var EventLog = require('./EventLog').schema;
 
 var Event = new Schema({
-    description: { type: String },
+    description: { type: String, require: true },
     is_published: { type: Boolean },
     publish_date: { type: Date },
-    is_active: { type: Boolean, default: true },
+    is_active: { type: Boolean, default: false },
     location: {
         type: [Number], index: Schema.indexTypes['2d']
     },
