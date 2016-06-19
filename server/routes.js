@@ -3,12 +3,11 @@
  */
 
 var UsersCtrl = require('./Controllers/Users');
+var authorize = require('./Middlewares/Jwt');
 
 module.exports = function(app) {
 
     // Auth
-    app.post('/register', UsersCtrl.register);
-
-    // Users
-    app.post('/users/confirm', UsersCtrl.confirm);
+    app.post('/api/auth/register', UsersCtrl.register);
+    app.post('/api/auth/access-token', UsersCtrl.confirm);
 };
