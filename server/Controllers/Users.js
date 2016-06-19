@@ -65,7 +65,7 @@ exports.register = function(req, res) {
 
 exports.confirm = function(req, res, next){
     req.checkBody({
-        userId: { notEmpty: true },
+        userId: { notEmpty: true, isObjectId: true },
         confirm_code: { notEmpty: true }
     });
 

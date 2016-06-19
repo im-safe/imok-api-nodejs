@@ -38,6 +38,15 @@ app.use(function(req, res, next){
     next();
 });
 
+// Custom express validator
+app.use(expressValidator({
+    customValidators: {
+        isObjectId: function(value) {
+            return mongoose.Types.ObjectId.isValid(value);
+        }
+    }
+}));
+
 // Production error handler
 if(app.get('env') == 'production') {
     app.use(function(err, req, res, next){
