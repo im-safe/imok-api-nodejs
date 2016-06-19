@@ -3,6 +3,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var EventLog = require('./EventLog').schema;
+
 var Event = new Schema({
     description: { type: String },
     is_published: { type: Boolean },
@@ -11,6 +13,7 @@ var Event = new Schema({
     location: {
         type: [Number], index: Schema.indexTypes['2d']
     },
+    log: { type: [EventLog] },
     source: { type: String, default: 'sys' },
     created_date: { type: Date, default: Date.now }
 });
