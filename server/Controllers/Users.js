@@ -34,11 +34,11 @@ exports.register = function(req, res) {
 
                 UsersService.updateUser(exists._id, data, function(error, result){
                     if(error){
-                        return res.jsonMongooseError(result);
+                        return res.jsonError(result);
                     }
 
                     // TODO Send confirmation code via SMS
-                    return res.jsonResponse();
+                    return res.jsonResponse(result);
                 });
             }else{ // New user
 

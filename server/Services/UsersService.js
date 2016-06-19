@@ -71,23 +71,27 @@ function createUser(userData, callback)
  */
 function updateUser(userId, userData, callback)
 {
-    User.findByIdAndUpdate(userId, { $set: userData }, function(err, user){
+    User.findByIdAndUpdate(userId, { $set: userData }, { new: true, runValidators: true }, function(err, user){
         if(err) {
-            callback(true, err);
+            callback(true, 'Error while confirm user, Please contact system administrator');
         }
 
-        var result = {
-            id : user._id,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            country_code: user.country_code,
-            phone_number: user.phone_number,
-            friends: user.friends,
-            last_location: user.last_location,
-            device: user.device
-        };
+        if(user){
+            var result = {
+                id : user._id,
+                first_name: user.first_name || '',
+                last_name: user.last_name || '',
+                country_code: user.country_code,
+                phone_number: user.phone_number,
+                friends: user.friends || [],
+                last_location: user.last_location || [],
+                device: user.device || {}
+            };
 
-        callback(false, result);
+            callback(false, result);
+        } else {
+            callback(true, 'nothing update');
+        }
     });
 }
 
