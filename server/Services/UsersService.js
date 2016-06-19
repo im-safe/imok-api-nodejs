@@ -76,7 +76,18 @@ function updateUser(userId, userData, callback)
             callback(true, err);
         }
 
-        callback(false, user);
+        var result = {
+            id : user._id,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            country_code: user.country_code,
+            phone_number: user.phone_number,
+            friends: user.friends,
+            last_location: user.last_location,
+            device: user.device
+        };
+
+        callback(false, result);
     });
 }
 
