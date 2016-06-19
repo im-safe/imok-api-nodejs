@@ -15,7 +15,7 @@ var User = new Schema({
     country_code: { type: String, required: true, index: true },
     phone_number: { type: String, required: true, index: true },
     last_location: {
-        type: [Number], index: Schema.indexTypes['2d']
+        type: [Number], index: '2d'
     },
     friends: { type: [Friend] },
     device: { type: Device },

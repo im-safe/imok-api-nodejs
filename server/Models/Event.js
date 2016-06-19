@@ -11,7 +11,7 @@ var Event = new Schema({
     publish_date: { type: Date },
     is_active: { type: Boolean, default: false },
     location: {
-        type: [Number], index: Schema.indexTypes['2d']
+        type: [Number], index: '2d'
     },
     log: { type: [EventLog] },
     source: { type: String, default: 'sys' },
