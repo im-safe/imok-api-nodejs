@@ -12,8 +12,8 @@ var User = new Schema({
     first_name: { type: String },
     last_name: { type: String },
     email: { type: String },
-    country_code: { type: String, required: true },
-    phone_number: { type: String, required: true },
+    country_code: { type: String, required: true, index: true },
+    phone_number: { type: String, required: true, index: true },
     last_location: {
         type: [Number], index: Schema.indexTypes['2d']
     },
