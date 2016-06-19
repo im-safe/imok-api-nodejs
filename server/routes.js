@@ -6,8 +6,9 @@ var UsersCtrl = require('./Controllers/Users');
 var authorize = require('./Middlewares/Jwt');
 
 module.exports = function(app) {
+    var apiRoutePrefix = '/api/';
 
     // Auth
-    app.post('/api/auth/register', UsersCtrl.register);
-    app.post('/api/auth/access-token', UsersCtrl.confirm);
+    app.post(apiRoutePrefix + 'auth/register', UsersCtrl.register);
+    app.post(apiRoutePrefix + 'auth/access-token', UsersCtrl.confirm);
 };
