@@ -1,6 +1,7 @@
 'use strict';
 
 var Event = require('../../Models/Event').model;
+var EventsService = require('../../Services/EventsService');
 
 exports.create = function(req, res, next) {
     req.checkBody({
@@ -28,5 +29,18 @@ exports.create = function(req, res, next) {
         }
 
         return res.jsonResponse(event);
+    });
+};
+
+exports.list = function(req, res, next)
+{
+    var page = req.query.page;
+
+    EventsService.getList({ page: page }, function(error, events){
+        if(error){
+            return res.jsonError(events);
+        }
+
+        return res.jsonResponse(events);
     });
 };

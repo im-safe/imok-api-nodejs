@@ -22,7 +22,8 @@ function getList(criteria, callback)
 
     offset = (page - 1) * per_page;
 
-    Event.find(criteria, { skip: offset, limit: per_page },function(err, events){
+    // TODO Check limit
+    Event.find(criteria, {}, { skip: offset, limit: per_page },function(err, events){
         if(err){
             callback(true, 'Error while getting list of events');
         }

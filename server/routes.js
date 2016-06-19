@@ -15,6 +15,7 @@ module.exports = function(app) {
      */
     app.get(apiRoutePrefix + 'users', UsersCtrl.list);
 
+    app.get(apiRoutePrefix + 'events', EventsCtrl.list);
     app.post(apiRoutePrefix + 'events', EventsCtrl.create);
 
 
