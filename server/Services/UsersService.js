@@ -44,7 +44,7 @@ function createUser(userData, callback)
 
     user.save(function(err){
         if(err){
-            callback(true, err);
+            return callback(true, err);
         }
 
         var result = {
@@ -73,7 +73,7 @@ function updateUser(userId, userData, callback)
 {
     User.findByIdAndUpdate(userId, { $set: userData }, { new: true, runValidators: true }, function(err, user){
         if(err) {
-            callback(true, 'Error while confirm user, Please contact system administrator');
+            return callback(true, 'Error while confirm user, Please contact system administrator');
         }
 
         if(user){
@@ -104,11 +104,11 @@ function updateUser(userId, userData, callback)
 function getUserById(userId, callback)
 {
     User.findById(userId, function(err, user){
-        if(err) {
-            callback(true, err);
-        }
+        if(err) { return callback(true, 'Error while getting user info'); }
 
-        callback(false, user);
+        if(!user) { callback(true, 'User not found') }
+
+        return callback(false, user);
     });
 }
 
@@ -134,10 +134,10 @@ function getList(criteria, callback)
     // TODO Check limit
     User.find(criteria, {confirm_code: 0}, { skip: offset, limit: per_page }, function(err, users){
         if(err) {
-            callback(true, "Error while getting list of users");
+            return callback(true, "Error while getting list of users");
         }
 
-        callback(false, users);
+        return callback(false, users);
     });
 }
 
