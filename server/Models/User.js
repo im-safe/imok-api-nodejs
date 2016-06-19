@@ -25,6 +25,19 @@ var User = new Schema({
     created_date: { type: Date, default: Date.now }
 });
 
+User.methods.toJson = function(){
+    return {
+        id : this._id,
+        first_name: this.first_name || '',
+        last_name: this.last_name || '',
+        country_code: this.country_code,
+        phone_number: this.phone_number,
+        friends: this.friends || [],
+        last_location: this.last_location || [],
+        device: this.device || {}
+    };
+};
+
 
 module.exports = {
     schema: User,
