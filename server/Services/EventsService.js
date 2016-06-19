@@ -25,10 +25,10 @@ function getList(criteria, callback)
     // TODO Check limit
     Event.find(criteria, {}, { skip: offset, limit: per_page },function(err, events){
         if(err){
-            callback(true, 'Error while getting list of events');
+            return callback(true, 'Error while getting list of events');
         }
 
-        callback(false, events);
+        return callback(false, events);
     });
 }
 
@@ -42,11 +42,11 @@ function getList(criteria, callback)
 function getEventById(eventId, callback)
 {
     Event.findById(eventId, function(err, event){
-        if(err){
-            callback(true, 'Error while getting event info');
-        }
+        if(err){ return callback(true, 'Error while getting event info'); }
 
-        callback(false, event);
+        if(!event) { return callback(true, 'Event not found'); }
+
+        return callback(false, event);
     });
 }
 
