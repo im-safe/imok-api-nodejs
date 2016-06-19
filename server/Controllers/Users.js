@@ -2,6 +2,7 @@
 
 var User = require('../Models/User').model;
 var UsersService = require('../Services/UsersService');
+var jwt = require('../Middlewares/Jwt');
 
 exports.register = function(req, res) {
     // Validate Data
@@ -89,7 +90,9 @@ exports.confirm = function(req, res, next){
                     return res.jsonMongooseError(result);
                 }
 
-                return res.jsonResponse('confirmed');
+                var access_token = jwt.generateToken(req.body.userId);
+
+                return res.jsonResponse(access_token);
             });
         }else{
             return res.jsonError('not valid code', 200);
