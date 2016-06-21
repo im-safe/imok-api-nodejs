@@ -50,7 +50,23 @@ function getEventById(eventId, callback)
     });
 }
 
+function updateEvent(eventId, eventData, callback)
+{
+    Event.findByIdAndUpdate(
+        eventId, // Event ID
+        { $set: eventData }, // Updated data
+        { new: true, runValidators: true }, // Mongoose update option
+        function(err, event){
+            if(err){ return callback(true, 'Error while update event info'); }
+
+            if(!event) { return callback(true, 'Event not found'); }
+
+            return callback(false, event);
+    });
+}
+
 module.exports = {
     getList: getList,
-    getEventById: getEventById
+    getEventById: getEventById,
+    updateEvent: updateEvent
 };
