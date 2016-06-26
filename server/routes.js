@@ -34,6 +34,7 @@ module.exports = function(app) {
     // Events
     app.get(apiRoutePrefix + 'events', EventsCtrl.list);
     app.get(apiRoutePrefix + 'events/:id', EventsCtrl.info);
+    app.put(apiRoutePrefix + 'events/:id', EventsCtrl.update);
     app.post(apiRoutePrefix + 'events', EventsCtrl.create);
 
 
