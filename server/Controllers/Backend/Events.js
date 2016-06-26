@@ -2,6 +2,7 @@
 
 var Event = require('../../Models/Event').model;
 var EventsService = require('../../Services/EventsService');
+var UsersService = require('../../Services/UsersService');
 var _ = require('lodash');
 
 exports.create = function(req, res, next) {
@@ -93,11 +94,6 @@ exports.update = function(req, res, next)
             eventData.is_active = req.body.is_active;
         }
 
-        if(req.body.is_published) {
-            eventData.is_published = req.body.is_published;
-            eventData.publish_date = Date.now();
-        }
-
         if(req.body.description) {
             eventData.description = req.body.description;
         }
@@ -113,5 +109,43 @@ exports.update = function(req, res, next)
         }else{
             return res.jsonResponse('Nothing to update');
         }
+    });
+};
+
+exports.publishEvent = function(req, res, next){
+    EventsService.getEventById(req.params['id'], function(error, event){
+        if(error){
+            return res.jsonError(event);
+        }
+
+        if(event.is_published){
+            return res.jsonError('Event is already published');
+        }
+
+        var eventData = {};
+        eventData.is_published = req.body.is_published;
+        eventData.publish_date = Date.now();
+
+        var criteria = {
+            all: true,
+            last_location: {
+                '$near': [event.location[0], event.location[0]],
+                '$maxDistance': 10
+            }
+        };
+
+        UsersService.getList(criteria, function(error, users){
+            if(error){
+                return res.jsonError(users);
+            }
+
+            // TODO send notification to users mobile
+        });
+
+        EventsService.updateEvent(req.params['id'], eventData, function(error, event){
+            if(error){
+                return res.jsonError(event);
+            }
+        });
     });
 };

@@ -5,7 +5,9 @@
 var AuthCtrl = require('./Controllers/Auth');
 var UsersCtrl = require('./Controllers/Backend/Users');
 var EventsCtrl = require('./Controllers/Backend/Events');
-var authorize = require('./Middlewares/Jwt');
+
+var FrontUserCtrl = require('./Controllers/Users');
+var Jwt = require('./Middlewares/Jwt');
 
 function objectId()
 {
@@ -35,6 +37,7 @@ module.exports = function(app) {
     app.get(apiRoutePrefix + 'events', EventsCtrl.list);
     app.get(apiRoutePrefix + 'events/:id', EventsCtrl.info);
     app.put(apiRoutePrefix + 'events/:id', EventsCtrl.update);
+    app.post(apiRoutePrefix + 'events/:id/publish', EventsCtrl.publishEvent);
     app.post(apiRoutePrefix + 'events', EventsCtrl.create);
 
 
@@ -45,4 +48,7 @@ module.exports = function(app) {
     // Auth
     app.post(apiRoutePrefix + 'auth/register', AuthCtrl.register);
     app.post(apiRoutePrefix + 'auth/access-token', AuthCtrl.confirm);
+
+    // Events response
+    app.post(apiRoutePrefix + 'alarm-response', Jwt.authorize, FrontUserCtrl.alarmResponse);
 };

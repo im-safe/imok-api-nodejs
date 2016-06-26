@@ -11,7 +11,6 @@ var fs = require('fs');
  */
 function authorize(req, res, next)
 {
-    generateToken('324567');
     var token;
     var header = req.headers['authorization'];
     if (typeof header !== 'undefined') {
@@ -27,10 +26,10 @@ function authorize(req, res, next)
 
             next();
         }catch(e){
-            res.jsonError('Not Authorized', 400);
+            return res.jsonError('Unauthorized', 401);
         }
     }else{
-        res.jsonError('Not Authorized', 400);
+        return res.jsonError('Unauthorized', 401);
     }
 }
 

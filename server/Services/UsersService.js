@@ -123,16 +123,29 @@ function getList(criteria, callback)
     var per_page = 20;
     var offset = 0;
     var page = 1;
+    var options = {};
+    var projection = {
+        confirm_code: 0
+    };
 
-    if(criteria.page && criteria.page > 0) {
-        page = parseInt(criteria.page);
-        delete criteria.page;
+    if(criteria.all && criteria.all == true){
+        delete criteria.all;
+    }else{
+        if(criteria.page && criteria.page > 0) {
+            page = parseInt(criteria.page);
+            delete criteria.page;
+        }
+
+        offset = (page - 1) * per_page;
+
+        options = {
+            skip: offset,
+            limit: per_page
+        }
     }
 
-    offset = (page - 1) * per_page;
-
     // TODO Check limit
-    User.find(criteria, {confirm_code: 0}, { skip: offset, limit: per_page }, function(err, users){
+    User.find(criteria, projection, options, function(err, users){
         if(err) {
             return callback(true, "Error while getting list of users");
         }
