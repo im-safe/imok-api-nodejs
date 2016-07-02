@@ -5,6 +5,7 @@
 var AuthCtrl = require('./Controllers/Auth');
 var UsersCtrl = require('./Controllers/Backend/Users');
 var EventsCtrl = require('./Controllers/Backend/Events');
+var AdminsCtrl = require('./Controllers/Backend/Admins');
 
 var FrontUserCtrl = require('./Controllers/Users');
 var Jwt = require('./Middlewares/Jwt');
@@ -39,6 +40,9 @@ module.exports = function(app) {
     app.put(apiRoutePrefix + 'events/:id', EventsCtrl.update);
     app.post(apiRoutePrefix + 'events/:id/publish', EventsCtrl.publishEvent);
     app.post(apiRoutePrefix + 'events', EventsCtrl.create);
+
+    // Admins
+    app.get(apiRoutePrefix + 'admins', AdminsCtrl.list);
 
 
     /**
