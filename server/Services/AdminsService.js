@@ -91,7 +91,7 @@ function getAdminByEmail(email, callback)
 
         if(!admin) { callback(true, 'Admin not found') }
 
-        return callback(false, admin);
+        return callback(false, admin[0]);
     });
 }
 

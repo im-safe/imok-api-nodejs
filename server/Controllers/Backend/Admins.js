@@ -37,11 +37,21 @@ exports.create = function(req, res, next) {
         password: passwordHash.generate(req.body.password)
     };
 
-    AdminsService.createAdmin(adminData, function(error, admin){
+    AdminsService.getAdminByEmail(adminData.email, function(error, admin){
         if(error){
             return res.jsonError('Can\'t create new admin');
         }
 
-        return res.jsonResponse(admin);
+        if(admin){
+            return res.jsonError('Email address is already exists.');
+        }else{
+            AdminsService.createAdmin(adminData, function(error, admin){
+                if(error){
+                    return res.jsonError('Can\'t create new admin');
+                }
+
+                return res.jsonResponse(admin);
+            });
+        }
     });
 };
