@@ -44,6 +44,7 @@ module.exports = function(app) {
 
     // Admins
     app.post(apiRoutePrefix + 'admins/auth', AdminsCtrl.login);
+    app.get(apiRoutePrefix + 'admins/check-login', AdminsCtrl.checkLogin);
     app.get(apiRoutePrefix + 'admins', AdminAuth, AdminsCtrl.list);
     app.post(apiRoutePrefix + 'admins', AdminAuth, AdminsCtrl.create);
 

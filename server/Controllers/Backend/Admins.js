@@ -16,7 +16,8 @@ exports.list = function(req, res, next)
     });
 };
 
-exports.create = function(req, res, next) {
+exports.create = function(req, res, next)
+{
     req.checkBody({
         first_name: { optional: true },
         last_name: { optional: true },
@@ -56,7 +57,8 @@ exports.create = function(req, res, next) {
     });
 };
 
-exports.login = function(req, res, next){
+exports.login = function(req, res, next)
+{
     if(req.session.admin)
     {
         return res.jsonError('Admin already logged in');
@@ -92,4 +94,13 @@ exports.login = function(req, res, next){
             return res.jsonError('Email or Password not correct');
         }
     });
+};
+
+exports.checkLogin = function(req, res, next)
+{
+    if(req.session.admin){
+        return res.jsonResponse('success');
+    }else{
+        return res.jsonError('Unauthorized', 401);
+    }
 };
