@@ -7,6 +7,7 @@ var logger = require('morgan');
 var compression = require('compression');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
+var session = require('express-session');
 var dotenv = require('dotenv');
 var mongoose = require('mongoose');
 var jsonResponse = require('./Middlewares/JsonResponse');
@@ -37,6 +38,12 @@ app.use(function(req, res, next){
     );
     next();
 });
+app.use(session({
+    secret: '#@$%^&*uhgfd32456uyjk',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+}));
 
 // Custom express validator
 app.use(expressValidator({
