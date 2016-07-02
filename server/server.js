@@ -41,8 +41,7 @@ app.use(function(req, res, next){
 app.use(session({
     secret: '#@$%^&*uhgfd32456uyjk',
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }
+    saveUninitialized: true
 }));
 
 // Custom express validator

@@ -1,7 +1,7 @@
 'use strict';
 var Admin = require('../../Models/Admin').model;
 var AdminsService = require('../../Services/AdminsService');
-var passwordHash = require('password-hash');
+var bcrypt = require('bcrypt');
 
 exports.list = function(req, res, next)
 {
@@ -34,7 +34,7 @@ exports.create = function(req, res, next) {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email,
-        password: passwordHash.generate(req.body.password)
+        password: req.body.password
     };
 
     AdminsService.getAdminByEmail(adminData.email, function(error, admin){
@@ -52,6 +52,44 @@ exports.create = function(req, res, next) {
 
                 return res.jsonResponse(admin);
             });
+        }
+    });
+};
+
+exports.login = function(req, res, next){
+    if(req.session.admin)
+    {
+        return res.jsonError('Admin already logged in');
+    }
+
+    req.checkBody({
+        email: { notEmpty: true },
+        password: { notEmpty: true }
+    });
+
+    var errors = req.validationErrors();
+
+    if(errors){
+        return res.jsonExpressError(errors);
+    }
+
+    AdminsService.getAdminByEmail(req.body.email, function(error, admin){
+        if(error){
+            return res.jsonError('Error while login');
+        }
+
+        if(!admin){
+            console.info('Admin not exists');
+            return res.jsonError('Email or Password not correct');
+        }
+
+        if(bcrypt.compareSync(req.body.password, admin.password)){
+            req.session.admin = admin;
+
+            return res.jsonResponse('Logged successfully');
+        } else {
+            console.info('password not correct');
+            return res.jsonError('Email or Password not correct');
         }
     });
 };

@@ -1,7 +1,7 @@
 'use strict';
 
 var Admin = require('../Models/Admin').model;
-var passwordHash = require('password-hash');
+var bcrypt = require('bcrypt');
 
 /**
  * Create new admin
@@ -12,7 +12,7 @@ var passwordHash = require('password-hash');
  */
 function createAdmin(adminData, callback)
 {
-    adminData.password = passwordHash.generate(adminData.password);
+    adminData.password = bcrypt.hashSync(adminData.password, 10);
 
     var admin = new Admin(adminData);
 
