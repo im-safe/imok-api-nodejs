@@ -9,6 +9,7 @@ var AdminsCtrl = require('./Controllers/Backend/Admins');
 
 var FrontUserCtrl = require('./Controllers/Users');
 var Jwt = require('./Middlewares/Jwt');
+var AdminAuth = require('./Middlewares/AdminAuth');
 
 function objectId()
 {
@@ -32,19 +33,19 @@ module.exports = function(app) {
      */
 
     // Users
-    app.get(apiRoutePrefix + 'users', UsersCtrl.list);
+    app.get(apiRoutePrefix + 'users', AdminAuth, UsersCtrl.list);
 
     // Events
-    app.get(apiRoutePrefix + 'events', EventsCtrl.list);
-    app.get(apiRoutePrefix + 'events/:id', EventsCtrl.info);
-    app.put(apiRoutePrefix + 'events/:id', EventsCtrl.update);
-    app.post(apiRoutePrefix + 'events/:id/publish', EventsCtrl.publishEvent);
-    app.post(apiRoutePrefix + 'events', EventsCtrl.create);
+    app.get(apiRoutePrefix + 'events', AdminAuth, EventsCtrl.list);
+    app.get(apiRoutePrefix + 'events/:id', AdminAuth, EventsCtrl.info);
+    app.put(apiRoutePrefix + 'events/:id', AdminAuth, EventsCtrl.update);
+    app.post(apiRoutePrefix + 'events/:id/publish', AdminAuth, EventsCtrl.publishEvent);
+    app.post(apiRoutePrefix + 'events', AdminAuth, EventsCtrl.create);
 
     // Admins
     app.post(apiRoutePrefix + 'admins/auth', AdminsCtrl.login);
-    app.get(apiRoutePrefix + 'admins', AdminsCtrl.list);
-    app.post(apiRoutePrefix + 'admins', AdminsCtrl.create);
+    app.get(apiRoutePrefix + 'admins', AdminAuth, AdminsCtrl.list);
+    app.post(apiRoutePrefix + 'admins', AdminAuth, AdminsCtrl.create);
 
 
     /**
