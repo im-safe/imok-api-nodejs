@@ -104,3 +104,10 @@ exports.checkLogin = function(req, res, next)
         return res.jsonError('Unauthorized', 401);
     }
 };
+
+exports.logout = function(req, res, next)
+{
+    delete req.session.admin;
+
+    return res.jsonResponse('success');
+};
