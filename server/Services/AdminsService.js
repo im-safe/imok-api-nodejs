@@ -1,7 +1,7 @@
 'use strict';
 
 var Admin = require('../Models/Admin').model;
-var Q = require('q');
+var passwordHash = require('password-hash');
 
 /**
  * Create new admin
@@ -12,6 +12,8 @@ var Q = require('q');
  */
 function createAdmin(adminData, callback)
 {
+    adminData.password = passwordHash.generate(adminData.password);
+
     var admin = new Admin(adminData);
 
     admin.save(function(err){
@@ -23,8 +25,7 @@ function createAdmin(adminData, callback)
             id : admin._id,
             first_name: admin.first_name,
             last_name: admin.last_name,
-            email: admin.email,
-            password: admin.password
+            email: admin.email
         };
 
         callback(false, result);

@@ -43,6 +43,7 @@ module.exports = function(app) {
 
     // Admins
     app.get(apiRoutePrefix + 'admins', AdminsCtrl.list);
+    app.post(apiRoutePrefix + 'admins', AdminsCtrl.create);
 
 
     /**
