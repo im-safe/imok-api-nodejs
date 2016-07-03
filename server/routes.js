@@ -6,6 +6,7 @@ var AuthCtrl = require('./Controllers/Auth');
 var UsersCtrl = require('./Controllers/Backend/Users');
 var EventsCtrl = require('./Controllers/Backend/Events');
 var AdminsCtrl = require('./Controllers/Backend/Admins');
+var CountriesCtrl = require('./Controllers/Backend/Countries');
 
 var FrontUserCtrl = require('./Controllers/Users');
 var Jwt = require('./Middlewares/Jwt');
@@ -48,6 +49,9 @@ module.exports = function(app) {
     app.post(apiRoutePrefix + 'admins/logout', AdminsCtrl.logout);
     app.get(apiRoutePrefix + 'admins', AdminAuth, AdminsCtrl.list);
     app.post(apiRoutePrefix + 'admins', AdminAuth, AdminsCtrl.create);
+
+    // Countries
+    app.get(apiRoutePrefix + 'countries', CountriesCtrl.list);
 
 
     /**
