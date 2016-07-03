@@ -88,7 +88,7 @@ exports.login = function(req, res, next)
         if(bcrypt.compareSync(req.body.password, admin.password)){
             req.session.admin = admin;
 
-            return res.jsonResponse('Logged successfully');
+            return res.jsonResponse({ adminId: admin._id });
         } else {
             console.info('password not correct');
             return res.jsonError('Email or Password not correct');
@@ -99,7 +99,7 @@ exports.login = function(req, res, next)
 exports.checkLogin = function(req, res, next)
 {
     if(req.session.admin){
-        return res.jsonResponse('success');
+        return res.jsonResponse(req.session.admin._id);
     }else{
         return res.jsonError('Unauthorized', 401);
     }
