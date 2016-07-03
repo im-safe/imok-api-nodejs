@@ -39,7 +39,7 @@ app.use(function(req, res, next){
 
     res.setHeader(
         'Access-Control-Allow-Origin',
-        '*'
+        'http://imok-ui.dev'
     );
 
     res.setHeader(
@@ -49,12 +49,16 @@ app.use(function(req, res, next){
 
     res.setHeader('Access-Control-Allow-Credentials', true);
 
+    res.setHeader('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+
     next();
 });
+//app.set('trust proxy', 1);
 app.use(session({
     secret: '#@$%^&*uhgfd32456uyjk',
-    resave: false,
-    saveUninitialized: true
+    resave: true,
+    saveUninitialized: true,
+    cookie: { maxAge: 3600000 * 24 * 2 }
 }));
 
 // Custom express validator
