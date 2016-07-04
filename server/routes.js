@@ -49,6 +49,7 @@ module.exports = function(app) {
     app.post(apiRoutePrefix + 'admins/logout', AdminsCtrl.logout);
     app.get(apiRoutePrefix + 'admins', AdminAuth, AdminsCtrl.list);
     app.get(apiRoutePrefix + 'admins/:id', AdminAuth, AdminsCtrl.info);
+    app.put(apiRoutePrefix + 'admins/:id', AdminAuth, AdminsCtrl.update);
     app.post(apiRoutePrefix + 'admins', AdminAuth, AdminsCtrl.create);
 
     // Countries

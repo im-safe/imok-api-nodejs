@@ -41,6 +41,11 @@ function createAdmin(adminData, callback)
  */
 function updateAdmin(adminId, adminData, callback)
 {
+    if(adminData.password)
+    {
+        adminData.password = bcrypt.hashSync(adminData.password, 10);
+    }
+
     Admin.findByIdAndUpdate(adminId, { $set: adminData }, { new: true, runValidators: true }, function(err, admin){
         if(err) {
             return callback(true, 'Error while confirm admin, Please contact system administrator');

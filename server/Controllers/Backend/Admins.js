@@ -2,6 +2,7 @@
 var Admin = require('../../Models/Admin').model;
 var AdminsService = require('../../Services/AdminsService');
 var bcrypt = require('bcrypt');
+var _ = require('lodash');
 
 exports.list = function(req, res, next)
 {
@@ -35,7 +36,7 @@ exports.create = function(req, res, next)
         first_name: { optional: true },
         last_name: { optional: true },
         email: { notEmpty: true },
-        password: { notEmpty: true }
+        password: { isLength: { options: [{ min: 6 }] } }
     });
 
     var errors = req.validationErrors();
@@ -66,6 +67,58 @@ exports.create = function(req, res, next)
 
                 return res.jsonResponse(admin);
             });
+        }
+    });
+};
+
+exports.update = function(req, res, next)
+{
+    req.checkBody({
+        first_name: { optional: true },
+        last_name: { optional: true },
+        email: { optional: true },
+        password: { optional: true }
+    });
+
+    var errors = req.validationErrors();
+
+    if(errors){
+        return res.jsonExpressError(errors);
+    }
+
+    AdminsService.getAdminById(req.params['id'], function(error, admin){
+        if(error){
+            return res.jsonError(admin);
+        }
+
+        var adminData = {};
+
+        if(req.body.first_name) {
+            adminData.first_name = req.body.first_name;
+        }
+
+        if(req.body.last_name) {
+            adminData.last_name = req.body.last_name;
+        }
+
+        if(req.body.email) {
+            adminData.email = req.body.email;
+        }
+
+        if(req.body.password) {
+            adminData.password = req.body.password;
+        }
+
+        if(!_.isEmpty(adminData)){
+            AdminsService.updateAdmin(req.params['id'], adminData, function(error, admin){
+                if(error){
+                    return res.jsonError(admin);
+                }
+
+                return res.jsonResponse(admin);
+            });
+        }else{
+            return res.jsonResponse('Nothing to update');
         }
     });
 };
