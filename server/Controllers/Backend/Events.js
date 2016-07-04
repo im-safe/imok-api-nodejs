@@ -20,7 +20,9 @@ exports.create = function(req, res, next) {
 
     var eventData = {
         description: req.body.description,
-        location: [ req.body.longitude, req.body.latitude ]
+        location: [ req.body.longitude, req.body.latitude ],
+        is_published: false,
+        is_active: true
     };
 
     var event = new Event(eventData);
@@ -130,7 +132,7 @@ exports.publishEvent = function(req, res, next){
             all: true,
             last_location: {
                 '$near': [event.location[0], event.location[0]],
-                '$maxDistance': 10
+                '$maxDistance': 100
             }
         };
 
@@ -139,7 +141,13 @@ exports.publishEvent = function(req, res, next){
                 return res.jsonError(users);
             }
 
-            // TODO send notification to users mobile
+            _.forEach(users, function(user){
+                user.notification = {
+                    eventId: req.params['id']
+                };
+
+                user.save();
+            });
         });
 
         EventsService.updateEvent(req.params['id'], eventData, function(error, event){
