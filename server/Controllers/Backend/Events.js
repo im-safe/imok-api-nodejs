@@ -147,5 +147,7 @@ exports.publishEvent = function(req, res, next){
                 return res.jsonError(event);
             }
         });
+
+        return res.jsonResponse('success');
     });
 };
