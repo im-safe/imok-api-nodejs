@@ -16,6 +16,19 @@ exports.list = function(req, res, next)
     });
 };
 
+exports.info = function(req, res, next)
+{
+    AdminsService.getAdminById(req.params['id'], function(error, admin){
+        if(error){
+            return res.jsonError(admin, 404);
+        }
+
+        admin.password = '';
+
+        return res.jsonResponse(admin);
+    });
+};
+
 exports.create = function(req, res, next)
 {
     req.checkBody({
