@@ -6,6 +6,7 @@ var Schema = mongoose.Schema;
 
 var Friend = require('./Friend').schema;
 var Device = require('./Device').schema;
+var Notification = require('./Notification').schema;
 
 // User Schema
 var User = new Schema({
@@ -19,6 +20,7 @@ var User = new Schema({
     },
     friends: { type: [Friend] },
     device: { type: Device },
+    notification: { type: Notification },
     is_active: { type: Boolean },
     confirm_code: { type: String, default: Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000 },
     is_confirmed: { type: Boolean, default: false },
