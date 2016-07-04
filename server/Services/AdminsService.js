@@ -48,7 +48,7 @@ function updateAdmin(adminId, adminData, callback)
 
     Admin.findByIdAndUpdate(adminId, { $set: adminData }, { new: true, runValidators: true }, function(err, admin){
         if(err) {
-            return callback(true, 'Error while confirm admin, Please contact system administrator');
+            return callback(true, 'Error while update admin, Please contact system administrator');
         }
 
         if(admin){
@@ -63,6 +63,22 @@ function updateAdmin(adminId, adminData, callback)
         } else {
             callback(true, 'nothing update');
         }
+    });
+}
+/**
+ * Remove admin
+ *
+ * @param adminId
+ * @param callback
+ */
+function deleteAdmin(adminId, callback)
+{
+    Admin.findByIdAndRemove(adminId, function(err){
+        if(err){
+            return callback(true, 'Error while delete admin, Please contact system administrator');
+        }
+
+        callback(false, 'deleted');
     });
 }
 
@@ -145,6 +161,7 @@ function getList(criteria, callback)
 module.exports = {
     createAdmin: createAdmin,
     updateAdmin: updateAdmin,
+    deleteAdmin: deleteAdmin,
     getAdminById: getAdminById,
     getList: getList,
     getAdminByEmail: getAdminByEmail
