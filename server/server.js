@@ -68,7 +68,7 @@ app.use(expressValidator({
             return mongoose.Types.ObjectId.isValid(value);
         },
         isValidCoordinate: function(value){
-            return /^-?((1?[0-7]?|[0-9]?)[0-9]|180)\.[0-9]{1,6}$/.test(value);
+            return /^-?((1?[0-7]?|[0-9]?)[0-9]|180)\.[0-9]{1,50}$/.test(value);
         }
     }
 }));
