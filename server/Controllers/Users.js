@@ -5,6 +5,7 @@
 'use strict';
 
 var EventsService = require('../Services/EventsService');
+var EventLog = require('../Models/EventLog').model;
 
 exports.alarmResponse = function (req, res, next){
     req.checkBody({
@@ -29,6 +30,20 @@ exports.alarmResponse = function (req, res, next){
         if(!event.is_active) {
             return res.jsonError('Not active event');
         }
+
+        var eventLog = new EventLog();
+        eventLog.user_id = req.token.sub;
+        eventLog.log_type = 'safe';
+
+        event.log.push(eventLog);
+
+        event.save(function(error){
+            if(error){
+                return res.jsonError('Error while response alarm');
+            }
+
+            return res.jsonResponse('success');
+        });
     });
 };
 
