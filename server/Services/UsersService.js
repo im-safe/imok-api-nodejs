@@ -44,7 +44,7 @@ function createUser(userData, callback)
 
     user.save(function(err){
         if(err){
-            return callback(true, err);
+            return callback(true, 'Error while create new user, Please contact system administrator');
         }
 
         var result = {
@@ -104,7 +104,7 @@ function updateUser(userId, userData, callback)
 function getUserById(userId, callback)
 {
     User.findById(userId, function(err, user){
-        if(err) { return callback(true, 'Error while getting user info'); }
+        if(err) { return callback(true, 'Error while getting user info, Please contact system administrator'); }
 
         if(!user) { callback(true, 'User not found') }
 
@@ -147,7 +147,7 @@ function getList(criteria, callback)
     // TODO Check limit
     User.find(criteria, projection, options, function(err, users){
         if(err) {
-            return callback(true, "Error while getting list of users");
+            return callback(true, "Error while getting list of users, Please contact system administrator");
         }
 
         return callback(false, users);

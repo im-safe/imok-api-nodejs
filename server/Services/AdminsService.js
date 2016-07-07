@@ -91,7 +91,7 @@ function deleteAdmin(adminId, callback)
 function getAdminById(adminId, callback)
 {
     Admin.findById(adminId, function(err, admin){
-        if(err) { return callback(true, 'Error while getting admin info'); }
+        if(err) { return callback(true, 'Error while getting admin info, Please contact system administrator'); }
 
         if(!admin) { callback(true, 'Admin not found') }
 
@@ -108,7 +108,7 @@ function getAdminById(adminId, callback)
 function getAdminByEmail(email, callback)
 {
     Admin.find({email: email}, function(err, admin){
-        if(err) { return callback(true, 'Error while getting admin info'); }
+        if(err) { return callback(true, 'Error while getting admin info, Please contact system administrator'); }
 
         if(!admin) { callback(true, 'Admin not found') }
 
@@ -151,7 +151,7 @@ function getList(criteria, callback)
     // TODO Check limit
     Admin.find(criteria, projection, options, function(err, admins){
         if(err) {
-            return callback(true, "Error while getting list of admins");
+            return callback(true, "Error while getting list of admins, Please contact system administrator");
         }
 
         return callback(false, admins);
