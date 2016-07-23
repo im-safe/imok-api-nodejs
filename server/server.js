@@ -69,7 +69,10 @@ app.use(expressValidator({
         },
         isValidCoordinate: function(value){
             return /^-?((1?[0-7]?|[0-9]?)[0-9]|180)\.[0-9]{1,50}$/.test(value);
-        }
+        },
+        isArray: function(value) {
+            return Array.isArray(value);
+        },
     }
 }));
 
