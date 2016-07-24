@@ -68,5 +68,6 @@ module.exports = function(app) {
     app.post(apiRoutePrefix + 'alarm-response', Jwt.authorize, FrontUserCtrl.alarmResponse);
 
     //Update contact's list
+    app.get(apiRoutePrefix + 'contacts', Jwt.authorize, FrontUserCtrl.contactsList);
     app.post(apiRoutePrefix + 'contacts', Jwt.authorize, FrontUserCtrl.updateContactList);
 };

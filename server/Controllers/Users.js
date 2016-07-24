@@ -7,6 +7,7 @@
 var EventsService = require('../Services/EventsService');
 var EventLog = require('../Models/EventLog').model;
 var Friend = require('../Models/Friend').model;
+var User = require('../Models/User').model;
 var UsersService = require('../Services/UsersService');
 var PNF = require('google-libphonenumber').PhoneNumberFormat;
 var phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
@@ -102,6 +103,25 @@ exports.updateContactList = function(req, res, next){
 
                 return res.jsonResponse('success');
             });
+        });
+    });
+};
+
+exports.contactsList = function(req, res, next){
+    var user_id = req.token.sub;
+
+    UsersService.getUserById(user_id, function(error, user){
+        if(error) { return res.jsonError('Error while getting user\s contacts'); }
+
+        var friendsIds = _.map(user.friends, 'user_id');
+        User.find(
+            { _id : { $in: friendsIds } },
+            { last_location: 0, is_active: 0, notification: 0, is_confirmed: 0, confirm_code: 0, friends: 0 },
+            {},
+            function(error, users){
+                if(error) { return res.jsonError('Error while getting user\s contacts'); }
+
+            return res.jsonResponse(users);
         });
     });
 };
